@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Личный кабинет</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px">
+        <div class="row">
+
+            <div class="col-lg-6">
+                <h3 class="text-center">История заказов:</h3>
+                <table class="table text-center">
+                    <div class="text-center">
+                    </div>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Дата заказа</th>
+                        <th>Статус</th>
+                        <th>Общая цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for order in order_history %}
+
+                            <td>
+                                <a href="/order/{{ order.id }}">{{ order.id }}</a>
+                            </td>
+                            <td>
+                                {{ order.created }}
+                            </td>
+                            <td>
+                                {{ order.status }}
+                            </td>
+                            <td>
+                                {{ order.total_price }}
+                            </td>
+                            </tr>
+                            </tbody>
+
+                        {% endfor %}
+                </table>
+            <div class="col-lg-12 offset-5">
+<div class="pagination">
+             <ul>
+    {% if order_history.has_previous %}
+        <li><a href="?page={{ order_history.previous_page_number }}">←</a> </li>
+    {% endif %}
+
+    {% for num in order_history.paginator.page_range %}
+        {% if num == order_history.number %}
+            <li><a ><b>{{ num }}</b></a> </li>
+        {% else %}
+            <li><a href="?page={{ num }}"> {{ num }}</a> </li>
+        {% endif %}
+    {% endfor %}
+
+    {% if order_history.has_next %}
+        <li> <a href="?page={{ order_history.next_page_number }}">→</a></li>
+    {% endif %}
+             </ul>
+</div>
+</div>
+            </div>
+
+            <div class="col-lg-6" style="margin-top: 10px">
+                <div>
+                    <h3 class="text-center">Изменить пароль:</h3>
+                    <form method="post" action="/password_change/">
+                        {% csrf_token %}
+                        <div>
+                            <p>В целях безопасности, пожалуйста, введите свой старый пароль, затем введите новый пароль дважды, чтобы мы могли убедиться в правильности написания.</p>
+
+{#                            <fieldset class="module aligned wide">#}
+{##}
+{#                                <div class="form-row">#}
+
+                                    <label for="id_old_password">Старый пароль:</label> <input type="password" name="old_password" autofocus required id="id_old_password" />
+                                </div>
+
+{#                                <div class="form-row">#}
+
+                                    <label for="id_new_password1">Новый пароль:</label> <input type="password" name="new_password1" required id="id_new_password1" />
+
+                                    <div class="help"><ul><li>Ваш пароль не должен совпадать с вашим именем или другой персональной информацией или быть слишком похожим на неё.</li><li>Ваш пароль должен содержать как минимум 8 символов.</li><li>Ваш пароль не может быть одним из широко распространённых паролей.</li><li>Ваш пароль не может состоять только из цифр.</li></ul></div>
+
+{#                                </div>#}
+
+{#                                <div class="form-row">#}
+
+                                    <label for="id_new_password2">Подтверждение нового пароля:</label> <input type="password" name="new_password2" required id="id_new_password2" />
+
+{#                                </div>#}
+
+                            </fieldset>
+
+                            <div class="submit-row">
+                                <input type="submit" value="Изменить мой пароль" class="default" />
+                            </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

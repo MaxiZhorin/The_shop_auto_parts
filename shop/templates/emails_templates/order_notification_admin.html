@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>dsfsdf</title>
+</head>
+<body>
+<h3>Здравствуйте у Вас новый заказ!</h3>
+<ul>
+    {% for key,value in order_fields.items %}
+        <li><b>{{ key }}</b> {{ value }}</li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<ul>
+    <li>
+        <b>
+            Имя:{{ order.customer_fio }}
+        </b>
+    </li>
+    <li>
+        <b>
+            Email: {{ order.customer_email }}
+        </b>
+    </li>
+    <li>
+        <b>
+            Телефон: {{ order.customer_phone }}
+        </b>
+    </li>
+    <li>
+        <b>
+            Общая сумма: {{ order.total_price }}
+        </b>
+    </li>
+
+    <p> Товары:</p>
+
+    <ul>
+        {% for prduct_in_order in product_in_order %}
+            <li>
+            {{ prduct_in_order.product.customer_name }} ({{ prduct_in_order.nmb }} шт.
+            по ({{ prduct_in_order.price_per_item }}) = {{ prduct_in_order.total_price }}
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+</ul>
+</body>
+</html>

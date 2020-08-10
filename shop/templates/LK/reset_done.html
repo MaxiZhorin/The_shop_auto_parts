@@ -1,0 +1,234 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    {% block title %}
+    {% endblock title %}
+
+    <link rel="icon" href ="{% static 'img/icon.jpg' %}" type= "image/x-icon" >
+    <link rel="shortcut icon" href ="{% static 'img/icon.jpg' %}" typ e="image/x-icon" >
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400" rel="stylesheet">
+
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+    <link rel="stylesheet"  href="{% static 'css/nav.css' %}">
+</head>
+<body>
+
+
+
+
+<div class="wpapper">
+
+    <form id="csrf-token">   {% csrf_token %}</form>
+
+<form id="form_buying_product" class="form-inline-nav" action="{% url 'basket_adding' %}" hidden></form>
+<div class="navbar-top">
+    <div class="container-navbar">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="logo">
+                    <img src="{% static 'img/2887780.jpg' %}" style="    max-width: 50%;margin-left: 20px;position: relative">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <form class="form-inline mt-5 mt-md-5" method="get" action="{% url 'search' %}">
+                    <input name="f" id="search" class="form-control mr-sm-2" type="text" placeholder="Введите название или артикул товара" aria-label="Поиск">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" href="">Поиск</button>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="auth">
+                        <a href="#Enter">Войти </a><br />
+
+
+                        <a href="#register">Регистрация </a>
+
+                        <div id="Enter" class="modalDialog">
+                            <div>
+                                <a href="#close" title="Закрыть" class="close">X</a>
+                                <h2>Войдите с помощью своей учетной записи</h2>
+                                <h1>Log-in</h1>
+                                <p>Please, use the following form to log-in:</p>
+                                <form action="/login/" method="post">
+                                    {% csrf_token %}
+                                    <p><label for="id_username">Username:</label> <input type="text" name="username" required="" id="id_username"></p>
+                                    <p><label for="id_password">Password:</label> <input type="password" name="password" required="" id="id_password"></p>
+                                    <p><input type="submit" value="Войти"></p><a href="/reset/">Забыли пароль?</a>
+                                </form>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div id="Enter_basket" class="modalDialog">
+                            <div>
+                                <a href="#close" title="Закрыть" class="close">X</a>
+                                <h2>Войдите с помощью своей учетной записи</h2>
+
+                                <form action="/login_basket/" method="post">
+                                    {% csrf_token %}
+                                    <p><label for="id_username">Username:</label> <input type="text" name="username" required="" id="id_username"></p>
+                                    <p><label for="id_password">Password:</label> <input type="password" name="password" required="" id="id_password"></p>
+                                    <p><input type="submit" value="Войти"></p>
+                                </form>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div id="register" class="modalDialog">
+                            <div style="width: 559px;">
+                                <a href="#close" title="Закрыть" class="close">X</a>
+                                <h1>Регистрация</h1>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg12">
+                                            <form action="/register/" method="post">
+                                                {% csrf_token %}
+                                                <p><label for="id_username">Имя пользователя:</label> <input type="text" name="username" maxlength="150" required id="id_username" /><br> <span class="helptext">Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</span></p>
+                                                <p><label for="id_first_name">ФИО:</label> <input type="text" name="first_name" maxlength="30" id="id_first_name" /></p>
+                                                <p><label for="id_email">Адрес электронной почты:</label> <input type="email" name="email" maxlength="254" id="id_email" /></p>
+                                                <p><label for="id_password">Пароль:</label> <input type="password" name="password" required id="id_password" /></p>
+                                                <p><label for="id_password2">Повторите пароль:</label> <input type="password" name="password2" required id="id_password2" /></p>
+                                                <p><input type="submit" value="Зарегестрироваться"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar-static">
+    <div class="">
+        <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+            <a class="navbar-brand" href="/">Главная</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Категории</a>
+                        <div class="categories" style="display: none">
+
+                            <div class="dropdown-menu"  aria-labelledby="dropdown05">
+                                <div class="categories_none">
+                                    {% for group_item in group_parse %}
+                                        <a class="dropdown-item" href="{% url 'group' group_item.id %}">{{ group_item.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                <li class="nav-item active">
+                        <a class="nav-link" href="/contact/">Контакты <span class="sr-only">(current)</span></a>
+                    </li>
+
+
+            </div>
+            <form class="form-inline mt-2 mt-md-0">
+                <div class="basket">
+
+                    <div class="basket-container">
+
+
+
+
+                        <a href="{% url 'checkout' %}"> <img  src="{% static 'img/shoppingicon.png' %}" style="max-height: 50px"><span id="basket_total_nmb" style="color: red">
+                            {% if products_total_nmb %}
+                                ({{ products_total_nmb }})
+                            {% else %}
+
+                            {% endif %}
+
+                        </span></a>
+                        <div class="basket-item" style="display: none">
+
+                            <ul class="">
+                                {% if products_in_basket %}
+                                    {% for product_in_basket in products_in_basket %}
+
+                                        <li>
+                                            {{ product_in_basket.product.customer_name }} {{ product_in_basket.nmb }} шт.
+                                            * {{ product_in_basket.price_per_item }} ₽.
+                                            <a class="delete-item" href="" data-product_id="{{ product_in_basket.id }}">x</a>
+                                        </li>
+
+                                    {% endfor %}
+                                    <div class="text-right">
+                                        <li><br><b>Сумма заказа: {{ total_price }}</b> </li>
+                                    </div>
+                                {% else %}
+                                    <p class="text-md-center" id="basket-ziro"> В Вашей корзине нет товара!</p>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </nav>
+    </div>
+</nav>
+
+</header>
+
+
+    <div class="col-lg-12">
+        <h2 class="text-center" style="font-size: 24px; margin-top: 20px;margin-bottom: 20px" >
+            Сброс пароля:
+        </h2>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                        {% csrf_token %}
+                        {% if users %}
+                            <h2 class="text-center" style="font-size: 24px; margin-top: 20px;margin-bottom: 20px" >
+            Письмо на {{ email_user }} отправлено
+        </h2>
+                        {% else %}
+                            <h2 class="text-center" style="font-size: 24px; margin-top: 20px;margin-bottom: 20px" >
+            Пользователя с такой почтой нет!
+        </h2>
+                        {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    {#    {% include 'footer.html' %}#}
+
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+{#<!-- Just to make our placeholder images work. Don't actually copy the next line! -->#}
+{#    <script src="../../../../assets/js/vendor/holder.min.js"></script>#}
+</body>
+</html>

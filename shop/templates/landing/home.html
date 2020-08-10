@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Интернет магазин запчастей "Вираж"</title>
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="col-lg-12 new_post">
+        <h2 class="text-center" style="font-size: 24px;">
+            Новые поступления
+        </h2>
+    </div>
+    <div class="section">
+    <div class="container">
+        <div class="row">
+            {% for product_image in products_new  %}
+                <div class="col-lg-3">
+                    <div class="product-item">
+                        <div>
+                            <a href="{% url 'product' product_image.product.id %}">
+                                <img src="{{ product_image.image.url }}" class="img-product_home" id="target">
+                            </a>
+                        </div>
+                        <h6>{{ product_image.product.customer_name }}</h6>
+                        <h7>{{ product_image.product.vendor }}
+                        </h7>
+                        <div>
+                            {{ product_image.product.price }} ₽
+                        </div>
+                        <div class="add-to-card-btn btn_margin">
+                            <form id="form_buying_product" class="form-inline-nav" action="{% url 'basket_adding' %}" >
+                                <div class="form-group">
+                                    <input type="number" value="1" class="form-control" name="number" id="number" hidden>
+                                    <div class="add-basket"  style="margin-left: 5px">
+                                        <button class="btn btn-sm btn-success" type="submit"  href="" data-product_id="{{ product_image.product.id }}">В корзину</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+<div class="col-lg-12 new_post">
+        <h2 class="text-center" style="margin-top: 30px;margin-bottom: 20px;font-size: 24px">
+            Категории товаров
+        </h2>
+    </div>
+
+    <div class="section">
+    <div class="container">
+        <div class="row">
+            {% for product_image in categories  %}
+                <div class="col-lg-3">
+                    <div class="group-image-item">
+                        <div>
+                            <a href="{% url 'group' product_image.group.id %}">
+                                <img src="{{ product_image.image.url }}" class="img-thumbnail">
+                            </a>
+                            <h2 style="text-align: center;margin-top: 5px">{{ product_image.group.name }}</h2>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{#    <div class="col-lg-12" style="margin-top: 15px">#}
+{#                    {% include 'landing/carusel.html' %}#}
+{#                </div>#}
+    </div>
+    </div>
+
+{% endblock %}

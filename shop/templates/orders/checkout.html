@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Оформление заказа</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px">
+        <div class="row">
+            {% if products_in_basket %}
+                <div class="col-lg-8 offset-2">
+                    <h3 class="text-center" style="font-size: 24px">Товары в корзине</h3>
+                    {#                    <h5 class="text-center">Общая стоимость: {{ request.session.basket.total_amount }} RUB </h5>#}
+                    {#                    {{ request.session.basket.products }}#}
+
+                    <form class="form-horizontal" method="post">{% csrf_token %}
+                        {% if user.is_authenticated %}
+
+                            <div class="form-group" hidden>
+                                <div class="col-lg-5">
+                                    <input type="text" name="User" class="form-control"
+                                           value="{{ user.username }}"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group" hidden>
+                                <div class="col-lg-5">
+                                    <input type="text" name="email" class="form-control"
+                                           value="{{ user.email }}"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-5">
+                                    <label>ФИО</label>
+                                    <span class="form-error">{{ form.name.errors }}</span>
+                                    <input type="text" name="{{ form.name.html_name }}" class="form-control"
+                                           value="{{ user.first_name }}"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-5">
+                                    <label>Телефон</label>
+                                    <span class="form-error">{{ form.phone.errors }}</span>
+                                    <input type="text" name="{{ form.phone.html_name }}" class="form-control"
+                                           value="" placeholder="+7"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8">
+                                    <label>Адрес доставки:</label>
+                                    <span class="form-error">{{ form.ship.errors }}</span>
+                                    <input type="text" name="{{ form.ship.html_name }}" class="form-control"
+                                           value="{{ request.POST.ship }}"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8">
+                                    <label>Коментарий к заказу:</label>
+                                    <input type="text" name="commit" class="form-control"
+                                           value=""
+                                    >
+                                </div>
+                            </div>
+                            <table class="table text-center">
+                                <div class="text-center">
+                                </div>
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Вид доставки</th>
+                                    <th>Цена</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="radio000" type="radio" value="400" checked name="ship1"/>
+                                    </td>
+                                    <td>
+                                        <img src="{% static 'img/1.gif' %}">
+                                    </td>
+                                    <td>
+                                        Почта РФ 1-й класс
+                                    </td>
+                                    <td> <span>
+                                                400
+                                            </span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="radio000" type="radio" value="200" checked name="ship1"/>
+                                    </td>
+                                    <td>
+                                        <img src="{% static 'img/38.gif' %}">
+                                    </td>
+                                    <td>
+                                        Доставка до транспортной компании "Деловые линии", "ПЭК, "Энергия"(нужную ТК указать в коментарии к заказу)
+                                    </td>
+                                    <td> <span>
+                                                200
+                                            </span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="radio000" type="radio" value="0" checked name="ship1"/>
+                                    </td>
+                                    <td>
+                                        <img src="{% static 'img/logo-default-ps.gif' %}">
+                                    </td>
+                                    <td>
+                                        Самовывоз г.Сызрань ул. Шигонская 1
+                                    </td>
+                                    <td> <span>
+                                                0
+                                            </span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        {% else %}
+
+                            <div>
+                                <h2>Для оформления заказа нужно войти в свою учетную запись или зарегестрироватся</h2>
+                                <a href="#Enter_basket">Войти </a><br />
+                                <a href="#register">Регистрация </a>
+                            </div>
+                        {% endif %}
+
+
+                        <table class="table text-center">
+                            <thead>
+                            <tr>
+                                <th>Название товара</th>
+                                <th>Количество</th>
+                                <th>Цена за еденицу</th>
+                                <th>Общая цена</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product_in_basket in products_in_basket %}
+                                <tr>
+                                    <td>
+                                        {{ product_in_basket.product.customer_name }}
+                                    </td>
+                                    <td>
+                                        <input style="width: 45px;" value="{{ product_in_basket.nmb }}" type="number"
+                                               class="product-in-basket-nmb" name="product_in_basket_{{ product_in_basket.id }}">
+                                    </td>
+                                    <td>
+                                            <span class="product-price">
+                                                {{ product_in_basket.price_per_item}}
+                                            </span>
+                                    </td>
+                                    <td>
+                                            <span class="total-product-in-basket-amount">
+                                                {{ product_in_basket.total_price }}
+                                            </span>
+                                        <a class="delete-item" href="" data-product_id="{{ product_in_basket.id }}">x</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <td>
+                                <div hidden id="total_ship" class="total-product-in-basket-amount">
+                                    0
+                                </div>
+                                {#                               <span hidden id="total_ship" class="total-product-in-basket-amount">#}
+                                {#                                                0#}
+                                {#                                            </span>#}
+                            </td>
+                            </tbody>
+                        </table>
+
+                        <div class="text-right">
+                            <b>Сумма заказа: </b> <span class="total_order_amountt">54</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary btn-sm">Заказать</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <h2 class="text-center" style="font-size: 24px;">В Вашей корзине нет товаров</h2>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

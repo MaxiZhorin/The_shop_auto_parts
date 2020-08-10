@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>{{ products }}</title>
+{% endblock %}
+{% block content %}
+
+<div class="wpapper">
+    <form id="csrf-token"> {% csrf_token %}</form>
+    <div class="product-image-item">
+        <div class="row">
+            <div class="col-lg-6">
+                
+                {% for image_item in products.productimage_set.all %}
+                
+                <div class="">
+                    <img src="{{ image_item.image.url }}" class="img-product">
+                </div>
+                {% endfor %}
+            
+            </div>
+            <!--{#-->
+            <div class="product-right">#}
+                <div class="col-lg-6">
+                    <div class="">
+                        <h3 class="text-center">
+                            <b>{{ products.customer_name }}</b>
+                        </h3>
+                        <div class="font-weight-light">
+                            <p> Артикул: {{ products.article }}</p>
+                            <p> Производитель: {{ products.vendor }}</p>
+                            <p> Описание: {{ products.descripton }}</p>
+                            
+                            <p><strong> Кроссы артикулов:</strong></p>
+                            {% for cross in all_cross %}
+                            <li style=> {{ cross.cross }}</li>
+                            {% endfor %}
+                            <h5> Цена:<b> {{ products.price }} RUB</b></h5>
+                            <div class="add-basket" style="margin-top: 10px">
+                                
+                                <form id="form_buying_product" class="form-inline-nav"
+                                      action="{% url 'basket_adding' %}">{% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="number" value="1" class="form-control" name="number" id="number">
+                                        <div class="" style="margin-left: 5px">
+                                            <button type="submit" id="submit_btn" class="btn btn-sm btn-success"
+                                                    data-product_id="{{ products.id }}"
+                                                    data-productname="{{ products.customer_name }}"
+                                                    data-productprice="{{ products.price }}"
+                                            >
+                                                Дабавить в корзину
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

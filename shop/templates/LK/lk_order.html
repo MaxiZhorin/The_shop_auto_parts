@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Личный кабинет</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h3 class="text-center">История заказов:</h3>
+                <table class="table text-center">
+                    <div class="text-center">
+                    </div>
+                    <thead>
+                    <tr>
+                        <th>Артикул</th>
+                        <th>Наименование</th>
+                        <th>Цена</th>
+                        <th>Колличество</th>
+                        <th>Общая цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for order in basket_order %}
+
+                            <td>
+                                <a href="{% url 'product' order.product_id %}">{{ order.product.article }}</a>
+                            </td>
+                            <td>
+                                {{ order.product.customer_name }}
+                            </td>
+                            <td>
+                                {{ order.product.price }}
+                            </td>
+                            <td>
+                                {{ order.nmb }}
+                            </td>
+                            <td>
+                                {{ order.total_price }}
+                            </td>
+                            </tr>
+                            </tbody>
+                        {% endfor %}
+                </table>
+                    <div class="text-right">
+                        <b>Сумма заказа: </b> <span>{{ order.total_price }}</span>
+                    </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <h2 class="text-left">ФИО заказчика: {{ order.customer_fio }}</h2>
+                        <h2 class="text-left">Дата заказа: {{ order.created }}</h2>
+                        <h2 class="text-left">Статус заказа: {{ order.status }}</h2>
+                        <h2 class="text-left">Метод доставки: {{ order.ship_metod }}</h2>
+
+                    </div>
+
+
+        </div>
+    </div>
+{% endblock %}

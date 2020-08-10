@@ -1,0 +1,175 @@
+{% load static %}
+<form id="form_buying_product" class="form-inline-nav" action="{% url 'basket_adding' %}" hidden></form>
+
+<nav class="navbar navbar-light bg-faded">
+    <a class="navbar-brand" href="/">Главная</a>
+    <ul class="nav navbar-nav">
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Категории
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% for group_item in group_parse %}
+                <a class="dropdown-item" href="{% url 'group' group_item.id %}">{{ group_item.name }}</a>
+                {% endfor %}
+            </div>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="/contact/">Контакты <span class="sr-only">(current)</span></a>
+        
+        </li>
+        
+        
+        <form class="form-inline pull-xs-left" method="get" action="/search/" style="
+    margin-left: 10%;
+">
+            <input name="f" id="search" class="form-control mr-sm-2" type="text"
+                   placeholder="Название или артикул товара" aria-label="Поиск">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" href="">Поиск</button>
+        </form>
+        
+        <li class="form-inline pull-xs-right">
+            <div class="basket">
+                <div class="basket-container">
+                    <a href="{% url 'checkout' %}"> <img src="{% static 'img/shoppingicon.png' %}"
+                                                         style="max-height: 50px"><span id="basket_total_nmb"
+                                                                                        style="color: red">
+                            {% if products_total_nmb %}
+                                ({{ products_total_nmb }})
+                            {% else %}
+
+                            {% endif %}
+
+                        </span></a>
+                    <div class="basket-item" style="display: none">
+                        
+                        <ul class="">
+                            {% if products_in_basket %}
+                            {% for product_in_basket in products_in_basket %}
+                            
+                            <li>
+                                {{ product_in_basket.product.customer_name }} {{ product_in_basket.nmb }} шт.
+                                * {{ product_in_basket.price_per_item }} ₽.
+                                <a class="delete-item" href="" data-product_id="{{ product_in_basket.id }}">x</a>
+                            </li>
+                            
+                            {% endfor %}
+                            <div class="text-right">
+                                <li><br><b>Сумма заказа: {{ total_price }}</b></li>
+                            </div>
+                            {% else %}
+                            <p class="text-md-center" id="basket-ziro"> В Вашей корзине нет товара!</p>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+        </li>
+        <li class="form-inline pull-xs-right" style="
+    margin-right: 5%;
+">
+            
+            {% if user.is_authenticated %}
+        
+        
+        <li class="nav-item dropdown pull-xs-right" style="
+    margin-right: 5%;
+">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Привет, {{ user.username }}!
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/logout">Выход</a>
+                <a class="dropdown-item" href="/lk/">Личный кабинет</a>
+            </div>
+        </li>
+        {% else %}
+        <!--<a class="nav-link active" href="#Enter">Войти</a>-->
+        <form action="#Enter">
+        <button href="#Enter" type="submit" class="btn btn-success">
+    Войти
+  </button>
+        </form>
+        
+        <div id="Enter" class="modalDialog">
+            <div>
+                <a href="#close" title="Закрыть" class="close">X</a>
+                <h2>Войдите с помощью своей учетной записи</h2>
+                <form action="/login/" method="post">
+                    {% csrf_token %}
+                    <p><label for="id_username">Username:</label> <input type="text" name="username"
+                                                                         required="" id="id_username"></p>
+                    <p><label for="id_password">Password:</label> <input type="password" name="password"
+                                                                         required="" id="id_password"></p>
+                    <p><input type="submit" value="Войти"></p><a href="/reset/">Забыли пароль?</a>
+                    <a href="#register">Регистрация </a>
+                </form>
+                </form>
+            </div>
+        
+        </div>
+        <div id="Enter_basket" class="modalDialog">
+            <div>
+                <a href="#close" title="Закрыть" class="close">X</a>
+                <h2>Войдите с помощью своей учетной записи</h2>
+                
+                <form action="/login_basket/" method="post">
+                    {% csrf_token %}
+                    <p><label for="id_username">Username:</label> <input type="text" name="username"
+                                                                         required="" id="id_username"></p>
+                    <p><label for="id_password">Password:</label> <input type="password" name="password"
+                                                                         required="" id="id_password"></p>
+                    <p><input type="submit" value="Войти"></p>
+                </form>
+                </form>
+            </div>
+        
+        </div>
+        <div id="register" class="modalDialog">
+            <div style="width: 559px;">
+                <a href="#close" title="Закрыть" class="close">X</a>
+                <h1>Регистрация</h1>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg12">
+                            <form action="/register/" method="post">
+                                {% csrf_token %}
+                                <p><label for="id_username">Имя пользователя:</label> <input type="text"
+                                                                                             name="username"
+                                                                                             maxlength="150"
+                                                                                             required
+                                                                                             id="id_username"/><br>
+                                    <span class="helptext">Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</span>
+                                </p>
+                                <p><label for="id_first_name">ФИО:</label> <input type="text"
+                                                                                  name="first_name"
+                                                                                  maxlength="30"
+                                                                                  id="id_first_name"/></p>
+                                <p><label for="id_email">Адрес электронной почты:</label> <input
+                                        type="email" name="email" maxlength="254" id="id_email"/></p>
+                                <p><label for="id_password">Пароль:</label> <input type="password"
+                                                                                   name="password" required
+                                                                                   id="id_password"/></p>
+                                <p><label for="id_password2">Повторите пароль:</label> <input
+                                        type="password" name="password2" required id="id_password2"/></p>
+                                <p><input type="submit" value="Зарегестрироваться"></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        {% endif %}
+        
+        </li>
+        
+        
+        </li>
+    
+    
+    </ul>
+</nav>
