@@ -20,5 +20,4 @@ from . import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^product/(?P<product_id>\w+)/$', views.product, name='product'),
-    # url(r'^', include("orders.urls")),
 ]
