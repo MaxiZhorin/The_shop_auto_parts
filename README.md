@@ -1,1 +1,1 @@
-My graduation project on the topic "online auto parts store"
+Мой дипломный проект "Интернет магазин запчастей на Python Django".
